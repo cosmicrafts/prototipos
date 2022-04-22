@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject nave;
-    public int cantidad;
-    public int maximo;
-    int maximoNum = 0;
-    int numero = 0;
-    GameObject[] objetos;
+    public GameObject nave; // se crea variable nave para adjuntar el objeto 
+    public int cantidad; // contador de la cantidad de naves simultaneas
+    public int maximo; // el maximo permitido
+    int maximoNum = 0;  // inicializa el contador maximo
+    int numero = 0; // inicializa el contador simultaneo
+    GameObject[] objetos;  // lista creada para saber la cantidad de objetos
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Spawn", 2, 1.5f);
+        InvokeRepeating("Spawn", 2, 1.5f); // invocar funcion y repetirla en unos interbalos
     }
 
     // Update is called once per frame
@@ -24,29 +24,34 @@ public class SpawnManager : MonoBehaviour
 
     void Spawn()
     {
+        // si numero de naves es menos que la cantidad maxima simultanea
+        // Y el numero de naves maximas es menor que el maximo total permitido
         if(numero < cantidad && maximoNum < maximo)
         {
+            // se creo un nuevo objeto(nave- esfera :D )
             Instantiate(nave, new Vector3(0, 0, 0), nave.transform.rotation);
-            numero++;
-            maximoNum++;
-            Debug.Log(" numero:"+numero);
-            if(numero == cantidad)
+            numero++; // se suma par el contador simultaneo
+            maximoNum++; // para el contador maximo
+            Debug.Log(" numero:"+numero);  // muestra numero siltaneo
+            if(numero == cantidad) // si numero simultane es igual a cantidad maxima
             {
+                // mostramos mensaje en consola
                 Debug.Log("Tienes:" + cantidad + "Maximo permitido simultaneo");
             }
-        }else
+        }else  // si numero no es menos que cantidad y maximonum no es menos que maximo 
         {
+            // objenemos la cantidad de objetos con la etiqueda de "player" existen
             objetos = GameObject.FindGameObjectsWithTag("Player");
-            if(objetos.Length < cantidad)
+            if(objetos.Length < cantidad) // si la cantidad de naves existentes en menos que la permitida entra
             {
-                //numero--;
-                //numero = cantidad - objetos.Length;
-                numero = objetos.Length;
+                // si se eliminan objetos entonces tendremos menos objetos simultaneos
+                numero = objetos.Length; // se asigna la nueva cantidad de objetos
             }
         }
-
+        // si el numero maximo de objetos permitidos en total es igual a el maximo
         if(maximoNum == maximo)
         {
+            // mostramo mensaje que ya se lleno al maximo y no se crearan mas objetos
             Debug.Log("Numero MAXIMO de "+ maximo + " unidades");
         }
         
